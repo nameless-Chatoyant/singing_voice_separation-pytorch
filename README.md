@@ -33,7 +33,7 @@ our result(paper/official repo result) on iKala
 | Model | Original Paper | Official Repo |
 |:-----:|:-----:|:-----:|
 | U-Net | [Singing Voice Separation with Deep U-Net Convolutional Networks](https://ismir2017.smcnus.org/wp-content/uploads/2017/10/171_Paper.pdf)| - |
-| SVSGAN | [Singing Voice Separation with Deep U-Net Convolutional Networks](https://ismir2017.smcnus.org/wp-content/uploads/2017/10/171_Paper.pdf)| - |
+| SVSGAN | [SVSGAN: Singing Voice Separation via Generative Adversarial Network](https://arxiv.org/abs/1710.11428)| - |
 
 # Troubleshooting
 1. NoBackendError audioread
