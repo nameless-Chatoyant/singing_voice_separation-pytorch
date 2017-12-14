@@ -18,3 +18,8 @@ python3 train.py
 
 #
 NoBackendError audioread
+
+# Models
+Model | Mean NSDR | Original Paper | Official Repo
+:---:|:---:|:---:
+U-Net | [Singing Voice Separation with Deep U-Net Convolutional Networks](https://ismir2017.smcnus.org/wp-content/uploads/2017/10/171_Paper.pdf)| -
