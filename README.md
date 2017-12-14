@@ -11,9 +11,12 @@ python3 preprocess.py --dir /path/to/data/
 ```
 2. train model
 ```bash
-python3 train.py
+python3 train.py --model
 ```
-3. predict
+3. eval
+```bash
+python3 eval.py --model
+```
 # Results
 
 #
