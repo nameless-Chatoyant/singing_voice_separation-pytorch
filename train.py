@@ -1,4 +1,5 @@
-from models import UNet
+from models import *
+
 class config:
     class encoder:
         leakiness = 0.2
@@ -11,8 +12,9 @@ class config:
         ch_out = [256, 128, 64, 32, 16]
         kernel_size = (5, 5)
         stride = 2
+
 net = UNet(config)
-if cuda:
+if True:
     net.cuda()
 
 
