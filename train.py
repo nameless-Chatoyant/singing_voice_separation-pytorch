@@ -1,5 +1,16 @@
 from models import *
 
+import torch.utils.data as data_utils
+
+from dataset import Data
+
+batch_size = 8
+train_dataset = Data('train')
+test_dataset = Data('train')
+train_loader = data_utils.DataLoader(train_dataset, batch_size)
+test_loader = data_utils.DataLoader(test_dataset, batch_size)
+
+
 class config:
     class encoder:
         leakiness = 0.2
@@ -30,3 +41,58 @@ if __name__ == '__main__':
 
     for epoch in range(args.max_epoch):
         net.train(epoch)
+
+
+
+
+def train(model, train_iter, dev_iter, loss_func, args):
+    """
+    # Arguments
+        model:
+        train_iter:
+        dev_iter:
+        loss_func:
+        args:
+    """
+    if args.cuda:
+        model.cuda()
+    
+    optimizer = torch.optim.Adam(model.parameters(), lr = args.lr)
+
+    steps = 0
+    model.train()
+    for epoch in range(args.epochs):
+        for batch in train_iter:
+            feature, target = batch.text, batch.label
+            feature.
+            if args.cuda:
+                feature, target = feature.cuda(), target.cuda()
+
+                optimizer.zero_grad()
+                
+                output = model(feature)
+
+                loss = loss_func(output, target)
+                loss.backward()
+                optimizer.step()
+
+                steps += 1
+
+                if steps % args.test_interval == 0:
+                    eval()
+                if steps % args.save_interval == 0:
+                    torch.save(model, save_path)
+    
+def eval(model, data_iter, args):
+    model.eval()
+    
+    for batch in data_iter:
+        feature, target = batch.text, batch.label
+        output = model(feature)
+        loss = loss_func(output, feature)
+        
+    
+    model.train()
+
+
+    np.arange(*[0.5, 1.0], 5)
