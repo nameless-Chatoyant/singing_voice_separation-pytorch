@@ -1,6 +1,7 @@
 import torch.utils.data as data_utils
 import librosa
 import numpy as np
+from cfgs.config import cfg
 class Data(data_utils.Dataset):
     def __init__(self, files):
         self.files = [i.strip() for i in open(files).readlines()]
@@ -8,8 +9,8 @@ class Data(data_utils.Dataset):
         # sound, sample_rate = torchaudio.load(self.files[idx])
         sound, sample_rate = librosa.load(self.files[idx], mono=False)
         mono = librosa.to_mono(sound)
-        len_frame = 1024
-        len_hop = 1024 // 4
+        len_frame = cfg.len_frame
+        len_hop = cfg.len_hop
         spectrogram_mono = librosa.stft(mono, n_fft=len_frame, hop_length=len_hop)
         spectrogram_nonvocal = librosa.stft(sound[0], n_fft=len_frame, hop_length=len_hop)
         spectrogram_mono = spectrogram_mono.astype(np.float32)
@@ -18,12 +19,6 @@ class Data(data_utils.Dataset):
         return spectrogram_mono, spectrogram_nonvocal
     def __len__(self):
         return len(self.files)
-
-batch_size = 8
-train_dataset = Data('data_train.txt')
-# test_dataset = Data('train')
-train_loader = data_utils.DataLoader(train_dataset, batch_size)
-# test_loader = data_utils.DataLoader(test_dataset, batch_size)
 
 if __name__ == '__main__':
     data = Data('data_train.txt')

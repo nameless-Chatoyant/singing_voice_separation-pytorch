@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from math import floor, ceil
 
+__all__ = ['UNet']
+
 def same_padding_conv(x, conv):
     dim = len(x.size())
     if dim == 4:
@@ -47,10 +49,12 @@ class config:
         kernel_size = (5, 5)
         stride = 2
 
+def loss_func(x, predict, y):
+    return torch.sum(torch.abs(x * predict - y))
 
-class UNet(nn.Module):
+class Net(nn.Module):
     def __init__(self, config):
-        super(UNet, self).__init__()
+        super(Net, self).__init__()
         self.convs = []
         self.deconvs = []
         self.kernel_size = config.encoder.kernel_size
@@ -95,8 +99,45 @@ class UNet(nn.Module):
             x = torch.cat([skip_connections.pop(), x], dim = 1)
         return x
 
+class UNet(object):
+    def __init__(self, args):
+        self.batch_size = args.batch_size
+
+        self.model = Net(config)
+        pass
+    def train(self, train_iter, dev_iter, args):    
+        if args.cuda:
+            model.cuda()
+        
+        optimizer = torch.optim.Adam(model.parameters(), lr = args.lr)
+
+        steps = 0
+        self.model.train()
+        for epoch in range(args.epochs):
+            for batch in train_iter:
+                feature, target = batch.feature, batch.target
+                # feature.
+                if args.cuda:
+                    feature, target = feature.cuda(), target.cuda()
+
+                optimizer.zero_grad()
+                output = model(feature)
+                loss = loss_func(feature, output, target)
+                loss.backward()
+                optimizer.step()
+
+                steps += 1
+
+                if steps % args.test_interval == 0 and dev_iter:
+                    self.eval(dev_iter)
+                if steps % args.save_interval == 0:
+                    torch.save(model, save_path)
+    def eval(self, data_iter, args):
+        pass
+    
+
 if __name__ == '__main__':
-    unet = UNet(config)
+    unet = Net(config)
     print(unet)
 
     import numpy as np
